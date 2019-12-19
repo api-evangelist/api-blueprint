@@ -1,0 +1,67 @@
+{
+    "id": "f5c4daa8498f8ece8a3894356ffcb0d6",
+    "name": "API 6.0",
+    "description": null,
+    "auth": null,
+    "events": null,
+    "variables": [],
+    "order": [],
+    "folders_order": [],
+    "folders": [],
+    "requests": [
+        {
+            "id": "cc64844c7cf3f35631e8925a3aa08b9e",
+            "name": "Get a promotion",
+            "url": "httppolls.apiblueprint.org\/\/promotions\/{PromotionCode}",
+            "description": "",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "PromotionCode",
+                    "description": "Promotion unique identifier",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "f5c4daa8498f8ece8a3894356ffcb0d6",
+            "rawModeData": ""
+        },
+        {
+            "id": "86b509a9d17854dbc35938bf6de695c0",
+            "name": "Create a promotion",
+            "url": "httppolls.apiblueprint.org\/\/promotions",
+            "description": "",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "post",
+            "pathVariableData": [],
+            "queryParams": [],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "f5c4daa8498f8ece8a3894356ffcb0d6",
+            "rawModeData": ""
+        }
+    ]
+}
