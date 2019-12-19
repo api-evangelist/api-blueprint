@@ -1,0 +1,210 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0",
+        "title": "API 6.0",
+        "description": "API Promotion",
+        "termsOfService": "http:\/\/exmple.com\/license\/"
+    },
+    "servers": [
+        "httppolls.apiblueprint.org\/"
+    ],
+    "paths": {
+        "\/promotions\/{PromotionCode}": {
+            "get": {
+                "summary": "Get a promotion",
+                "description": "",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "PromotionCode",
+                        "in": "path",
+                        "description": "Promotion unique identifier"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a promotion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/PromotionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/promotions": {
+            "post": {
+                "summary": "Create a promotion",
+                "description": "",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Get a promotion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/PromotionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PromotionCode": {
+                "type": "object",
+                "properties": {
+                    "Code": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "PromotionResponse": {
+                "type": "object"
+            },
+            "PromotionRequest": {
+                "type": "object",
+                "properties": {
+                    "Name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "Description": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "StartDate": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "EndDate": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "MaximumOrdersNumber": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "MaximumQuantity": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "InstantDiscount": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "Coupon": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "Enabled": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "ChannelType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "Type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "Discount": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "Products": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "PriceThreshold": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "Translations": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "Sources": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "PublishToAffiliatesNetwork": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "ApplyRecurring": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "RecurringChargesNumber": {
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Coupon": {
+                "type": "object"
+            },
+            "Discount": {
+                "type": "object"
+            },
+            "Products": {
+                "type": "array"
+            },
+            "PriceThreshold": {
+                "type": "object"
+            },
+            "Translations": {
+                "type": "array"
+            },
+            "Sources": {
+                "type": "array"
+            },
+            "PromotionProduct": {
+                "type": "object",
+                "properties": {
+                    "Code": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "PricingOptionCodes": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "PricingConfigurationCode": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "PricingOptionCodes": {
+                "type": "array"
+            },
+            "PromotionProductTranslation": {
+                "type": "object",
+                "properties": {
+                    "Name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "Language": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
