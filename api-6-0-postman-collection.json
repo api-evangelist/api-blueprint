@@ -1,5 +1,5 @@
 {
-    "id": "f5c4daa8498f8ece8a3894356ffcb0d6",
+    "id": "037f6b0adeae88cb5ef023ad973ba71a",
     "name": "API 6.0",
     "description": null,
     "auth": null,
@@ -10,7 +10,7 @@
     "folders": [],
     "requests": [
         {
-            "id": "cc64844c7cf3f35631e8925a3aa08b9e",
+            "id": "dacb536b56c69be4439997b49c1da2a6",
             "name": "Get a promotion",
             "url": "httppolls.apiblueprint.org\/\/promotions\/{PromotionCode}",
             "description": "",
@@ -37,11 +37,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "f5c4daa8498f8ece8a3894356ffcb0d6",
+            "collectionId": "037f6b0adeae88cb5ef023ad973ba71a",
             "rawModeData": ""
         },
         {
-            "id": "86b509a9d17854dbc35938bf6de695c0",
+            "id": "e70bfae741e8a09630f9f5cc841200ca",
             "name": "Create a promotion",
             "url": "httppolls.apiblueprint.org\/\/promotions",
             "description": "",
@@ -60,7 +60,7 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "f5c4daa8498f8ece8a3894356ffcb0d6",
+            "collectionId": "037f6b0adeae88cb5ef023ad973ba71a",
             "rawModeData": ""
         }
     ]
