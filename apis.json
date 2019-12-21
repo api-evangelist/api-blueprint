@@ -8,8 +8,8 @@
         "have api",
         "have swagger"
     ],
-    "created": "2019-12-19",
-    "modified": "2019-12-19",
+    "created": "2019-12-20",
+    "modified": "2019-12-20",
     "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/api-blueprint\/master\/apis.json",
     "specificationVersion": "0.14",
     "apis": [
@@ -23,11 +23,11 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/api-6-0.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/api-blueprint\/master\/api-6-0-openapi.json"
                 },
                 {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/api-6-0-postman-collection.json"
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/api-6-0.json"
                 }
             ]
         },
@@ -41,17 +41,21 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/api-blueprint.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/api-blueprint\/master\/api-blueprint-openapi.json"
                 },
                 {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/api-blueprint-postman-collection.json"
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/api-blueprint.json"
                 }
             ]
         }
     ],
     "include": [],
     "x-common": [
+        {
+            "type": "APIs.json",
+            "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/apis.json"
+        },
         {
             "type": "Github",
             "url": "https:\/\/github.com\/apiaryio\/api-blueprint"
