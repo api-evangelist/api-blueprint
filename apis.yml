@@ -1,0 +1,38 @@
+aid: api-blueprint
+name: API Blueprint
+description: >-
+  API Blueprint is a high-level API description language using Markdown-based syntax for designing, documenting, and prototyping APIs.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API Design
+  - Specification Language
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/api-blueprint/refs/heads/main/apis.yml
+created: '2026-03-25'
+modified: '2026-03-25'
+specificationVersion: '0.19'
+apis:
+  - aid: api-blueprint:api-blueprint
+    name: API Blueprint
+    description: >-
+      API Blueprint is a high-level API description language using Markdown-based syntax for designing, documenting, and prototyping APIs.
+    humanURL: https://apiblueprint.org
+    tags:
+      - API Design
+      - Specification Language
+    properties:
+      - type: Documentation
+        url: https://apiblueprint.org/documentation/
+      - type: GitHub Repository
+        url: https://github.com/apiaryio/api-blueprint
+common:
+  - type: Website
+    url: https://apiblueprint.org
+  - type: Documentation
+    url: https://apiblueprint.org/documentation/
+  - type: GitHub Organization
+    url: https://github.com/apiaryio/api-blueprint
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
