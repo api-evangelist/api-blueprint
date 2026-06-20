@@ -9,7 +9,7 @@ description: >-
   (all apiaryio GitHub repos are archived as of 2024) but remains a notable
   specification in API design history, influencing later formats like OpenAPI.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - API Design
   - Specification Language
