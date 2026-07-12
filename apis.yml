@@ -43,6 +43,8 @@ apis:
       - type: GettingStarted
         url: https://apiblueprint.org/documentation/tutorial.html
 common:
+  - type: DomainSecurity
+    url: security/api-blueprint-domain-security.yml
   - type: Website
     url: https://apiblueprint.org
   - type: Documentation
