@@ -4,140 +4,33 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: API Blueprint
 providerId: api-blueprint
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - API Design
-  - Specification Language
-  - Markdown
-  - Documentation
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: api-blueprint-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the API Blueprint API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: API Blueprint
-  - id: api-blueprint-pro
-    name: Professional
-    type: paid
-    description: Production tier for API Blueprint. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: API Blueprint
-  - id: api-blueprint-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for API Blueprint. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: API Blueprint
+modified: '2026-09-02'
+generated: '2026-09-02'
+method: searched
+source: >-
+  apiblueprint.org (200), /developers.html (200), /support.html (200) and
+  /tools.html (200), all read 2026-09-02; the apiaryio GitHub organization; and
+  live unauthenticated calls to https://api.apiblueprint.org.
+plan_count: 0
+note: >-
+  API BLUEPRINT PUBLISHES NO PLANS AND CHARGES NOTHING. There is no pricing
+  page, no plan tiers, no sign-up, no account, no billing surface and no
+  contact-sales gate. The specification is MIT licensed and the parsing service
+  at api.apiblueprint.org answered every request during this pass with no
+  credential and no quota.
+
+
+  SUPERSEDES A SCAFFOLD. Until this pass this file described Free /
+  Professional / Enterprise tiers with request quotas and overage pricing. None
+  of that existed. It was written by the 2026-05-04 bulk sweep as a placeholder
+  and was never true of this provider. It has been removed rather than left to
+  read as the provider's own published pricing.
+pricing_url: null
+free_tier: true
+free_tier_detail: >-
+  Everything is free. This is not a freemium tier with a paid step above it —
+  there is no paid step.
+plans: []
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

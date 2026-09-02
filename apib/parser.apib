@@ -1,0 +1,167 @@
+## API Description Parser [/parser]
+Parse an API description format.
+
+### Parse [POST]
+API Blueprint parsing is performed as it is provided by the [Drafter](https://github.com/apiaryio/drafter) reference parser.
+
+#### Input Media Types
+
+##### API Blueprint
+
+```
+text/vnd.apiblueprint
+```
+
+API Blueprint as defined in its [specification](https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md).
+
+##### Swagger 2.0
+
+```
+application/swagger+yaml
+application/swagger+json
+```
+
+Swagger as defined in its [specification](http://swagger.io/specification)
+
+#### Output Media Types
+
+##### API Description Parse Result Namespace
+
+```
+application/vnd.refract.parse-result+json
+application/vnd.refract.parse-result+yaml
+```
+
+General-purpose result of the parsing operation. The parse result is in form of the Refract data structure as defined in its [specification](https://github.com/refractproject/refract-spec). The parse result data comply with the [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result-namespace.md).
+
++ Relation: parse
+
++ Request Parse API Blueprint into Parse Result Namespace as JSON (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+json
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+json)
+
+        :[](fixtures/apib/normal.refract.parse-result.json)
+
++ Request Parse API Blueprint into Parse Result Namespace as YAML (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+yaml
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+yaml)
+
+        :[](fixtures/apib/normal.refract.parse-result.yaml)
+
++ Request Parse API Blueprint into Parse Result Namespace as JSON 1.0 (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+json; version=1.0
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+json; version=1.0)
+
+        :[](fixtures/apib/normal.refract.parse-result.1.0.json)
+
++ Request Parse API Blueprint into Parse Result Namespace as YAML 1.0 (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+yaml; version=1.0
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+yaml; version=1.0)
+
+        :[](fixtures/apib/normal.refract.parse-result.1.0.yaml)
+
++ Request Parse API Blueprint into Parse Result Namespace as JSON 0.6 (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+json; version=0.6
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+json; version=0.6)
+
+        :[](fixtures/apib/normal.refract.parse-result.json)
+
++ Request Parse API Blueprint into Parse Result Namespace as YAML 0.6 (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+yaml; version=0.6
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 200 (application/vnd.refract.parse-result+yaml; version=0.6)
+
+        :[](fixtures/apib/normal.refract.parse-result.yaml)
+
++ Request Invalid Document (text/vnd.apiblueprint)
+
+    + Headers
+
+            Accept: application/vnd.refract.parse-result+yaml
+
+    + Body
+
+            :[](fixtures/apib/error.apib)
+
++ Response 422 (application/vnd.refract.parse-result+yaml)
+
+        :[](fixtures/apib/error.refract.parse-result.yaml)
+
++ Request Unsupported Input Media Type
+
+    + Headers
+
+            Content-Type: application/raml+yaml
+
+    + Body
+
+            :[](fixtures/apib/normal.apib)
+
++ Response 415 (application/vnd.error+json)
+
+        {
+          "message": "Content-Type \"undefined\" is not supported. Supported MIME types: text/vnd.apiblueprint, text/vnd.legacyblueprint, application/swagger"
+        }
+
++ Request Unsupported Output Media Type (application/swagger+yaml)
+
+    + Headers
+
+            Accept: application/vnd.apiblueprint.parseresult+json; version=2.2
+
+    + Body
+
+            :[](fixtures/swagger.yaml/normal.yaml)
+
++ Response 406 (application/vnd.error+json)
+
+        {
+          "message": "None of requested Content-Types \"application/vnd.apiblueprint.parseresult+json; version=2.2\" is supported. Supported MIME types: application/vnd.refract.parse-result, application/vnd.refract.parse-result; version=0.6, application/vnd.refract.parse-result; version=1.0, application/vnd.refract.parse-result+json, application/vnd.refract.parse-result+json; version=0.6, application/vnd.refract.parse-result+json; version=1.0, application/vnd.refract.parse-result+yaml, application/vnd.refract.parse-result+yaml; version=0.6, application/vnd.refract.parse-result+yaml; version=1.0"
+        }

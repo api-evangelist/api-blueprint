@@ -1,0 +1,71 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  GitHub releases for apiaryio/api-blueprint, read 2026-09-02 via the GitHub
+  API. These are the API Blueprint FORMAT releases; the parsing service itself
+  publishes no changelog.
+provider: API Blueprint
+providerId: api-blueprint
+scheme: format-release
+detail: >-
+  Versions are named "Format 1A<n>" and tagged format-1A<n>. There is no
+  semantic version and no dated changelog for the HTTP API — only for the
+  document format the API parses.
+current_version: 1A9
+current_version_date: '2015-06-08'
+url: https://github.com/apiaryio/api-blueprint/releases
+note: >-
+  The most recent release is more than eleven years old as of this pass, and the
+  repository was archived on 2024-11-08. The format is finished, not in flight.
+entries:
+  - version: 1A9
+    date: '2015-06-08'
+    title: 'Format 1A9 Release: Named Endpoints'
+    breaking: false
+    additions: true
+  - version: 1A8
+    date: '2015-03-30'
+    title: 'Format 1A8 Release: MSON'
+    breaking: false
+    additions: true
+    highlights: >-
+      Introduced MSON (Markdown Syntax for Object Notation) as the data
+      structure sub-language.
+  - version: 1A7
+    date: '2014-10-20'
+    title: 'Format 1A7 Release: Lazy Referencing'
+    breaking: false
+    additions: true
+  - version: 1A6
+    date: '2014-07-07'
+    title: 'Format 1A6 Release: URI Templates'
+    breaking: false
+    additions: true
+  - version: 1A5
+    date: '2014-05-15'
+    title: 'Format 1A5 Release: Request & Response pairing'
+    breaking: false
+    additions: true
+  - version: 1A4
+    date: '2014-04-15'
+    title: 'Maintenance Release: Format 1A4'
+    breaking: false
+    additions: false
+  - version: 1A3
+    date: '2014-02-27'
+    title: Format 1A3 Release
+    breaking: false
+    additions: true
+  - version: 1A2
+    date: '2014-02-07'
+    title: Format 1A2 Release
+    breaking: false
+    additions: true
+  - version: 1A
+    date: '2013-12-17'
+    title: Format 1A Release
+    breaking: false
+    additions: true
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

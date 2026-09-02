@@ -1,0 +1,443 @@
+# generated: '2026-09-02'
+# method: derived+probed
+# source: >-
+#   Derived operation-for-operation from the provider's OWN first-party contract,
+#   the API Blueprint document at
+#   https://github.com/apiaryio/api.apiblueprint.org/tree/master/source
+#   (apiary.apib / root.apib / parser.apib / composer.apib, saved verbatim in
+#   apib/ in this repo), and reconciled against live unauthenticated probes of
+#   https://api.apiblueprint.org/ on 2026-09-02 (GET / -> 200 application/hal+json;
+#   OPTIONS /parser -> 204 Allow POST; POST /parser text/vnd.apiblueprint ->
+#   200 application/vnd.refract.parse-result+json).
+#   API Evangelist authored this OpenAPI translation; the provider publishes the
+#   contract in API Blueprint format, not OpenAPI. Nothing here is invented — every
+#   path, media type, status code and error message string is copied from the
+#   provider's .apib source or observed on the wire.
+#   /validate and /transform are NOT in the provider's published contract. They are
+#   advertised by the live service root and were characterised entirely by
+#   unauthenticated probe on 2026-09-02; each carries an x-probed block listing the
+#   exact requests and responses that establish it.
+openapi: 3.1.0
+info:
+  title: API Blueprint API
+  version: '1A'
+  summary: API Blueprint parsing service
+  description: >-
+    The API Blueprint parsing service provides parsing of API Blueprint "as a
+    service". It parses API Blueprint and Swagger 2.0 documents into the Refract
+    Parse Result Namespace (API Elements), and composes API Blueprint back out of
+    API Elements.
+
+
+    The API uses content negotiation heavily: set `Content-Type` to the input
+    media type and `Accept` to the desired output media type. Resource state is
+    represented as `application/hal+json`; error states use the `vnd.error` media
+    type.
+
+
+    NOTE ON PROVENANCE: this OpenAPI document was written by API Evangelist as a
+    faithful translation of the provider's own API Blueprint contract. The
+    canonical, provider-published contract is the API Blueprint document in
+    `apib/` in this repository.
+  license:
+    name: MIT
+    identifier: MIT
+  contact:
+    name: API Blueprint
+    url: https://apiblueprint.org
+externalDocs:
+  description: API Blueprint API documentation on Apiary
+  url: https://apiblueprintapi.docs.apiary.io/
+servers:
+  - url: https://api.apiblueprint.org
+    description: Production parsing service (declared as HOST in the provider's apiary.apib)
+tags:
+  - name: Service Root
+    description: Entry point listing the available affordances.
+  - name: Parser
+    description: Parse an API description format into API Elements.
+  - name: Composer
+    description: Compose an API description format from API Elements.
+  - name: Validate
+    description: >-
+      Validate an API description and return its annotations. Advertised by the
+      live service root; absent from the provider's published contract.
+  - name: Transform
+    description: >-
+      Convert an API description between formats through a JSON envelope.
+      Advertised by the live service root; absent from the provider's published
+      contract.
+paths:
+  /:
+    get:
+      tags: [Service Root]
+      operationId: listAffordances
+      summary: List
+      description: >-
+        API entry point. This resource does not have any attributes, instead it
+        provides a list of available affordances (`parse`, `compose`).
+      responses:
+        '200':
+          description: HAL representation of the service root.
+          headers:
+            Link:
+              description: Profile link relation pointing at the API documentation.
+              schema:
+                type: string
+              example: '<https://plutonium.docs.apiary.io>; rel="profile"'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ServiceRoot'
+              example:
+                _links:
+                  self: {href: /}
+                  validate: {href: /validate}
+                  transform: {href: /transform}
+                  parse: {href: /parser}
+                  compose: {href: /composer}
+  /parser:
+    post:
+      tags: [Parser]
+      operationId: parseApiDescription
+      summary: Parse
+      description: >-
+        Parse an API description format. API Blueprint parsing is performed as it
+        is provided by the Drafter reference parser. The output is the Refract
+        data structure conforming to the Parse Result Namespace.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: >-
+            Desired output media type. One of
+            `application/vnd.refract.parse-result+json`,
+            `application/vnd.refract.parse-result+yaml`, optionally qualified
+            with `; version=1.0` or `; version=0.6`.
+          schema:
+            type: string
+            enum:
+              - application/vnd.refract.parse-result+json
+              - application/vnd.refract.parse-result+yaml
+              - application/vnd.refract.parse-result+json; version=1.0
+              - application/vnd.refract.parse-result+yaml; version=1.0
+              - application/vnd.refract.parse-result+json; version=0.6
+              - application/vnd.refract.parse-result+yaml; version=0.6
+          example: application/vnd.refract.parse-result+json
+      requestBody:
+        required: true
+        description: The API description document to parse.
+        content:
+          text/vnd.apiblueprint:
+            schema:
+              type: string
+              description: An API Blueprint document.
+          text/vnd.legacyblueprint:
+            schema:
+              type: string
+              description: A legacy API Blueprint document.
+          application/swagger+json:
+            schema:
+              type: string
+              description: A Swagger 2.0 document in JSON.
+          application/swagger+yaml:
+            schema:
+              type: string
+              description: A Swagger 2.0 document in YAML.
+      responses:
+        '200':
+          description: Parse result in the Refract Parse Result Namespace.
+          content:
+            application/vnd.refract.parse-result+json:
+              schema:
+                $ref: '#/components/schemas/ParseResult'
+            application/vnd.refract.parse-result+yaml:
+              schema:
+                type: string
+        '406':
+          description: >-
+            None of the requested output media types is supported.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '415':
+          description: The supplied input media type is not supported.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: >-
+                  Content-Type "undefined" is not supported. Supported MIME
+                  types: text/vnd.apiblueprint, text/vnd.legacyblueprint,
+                  application/swagger
+        '422':
+          description: >-
+            The document could not be parsed. The parse result carries the
+            annotations describing the errors.
+          content:
+            application/vnd.refract.parse-result+json:
+              schema:
+                $ref: '#/components/schemas/ParseResult'
+            application/vnd.refract.parse-result+yaml:
+              schema:
+                type: string
+  /composer:
+    post:
+      tags: [Composer]
+      operationId: composeApiDescription
+      summary: Compose
+      description: >-
+        Reverse the parsing process — compose an API description format from API
+        Elements. Accepts an API Elements API Category or an API Elements Parse
+        Result and returns an API Blueprint document.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Desired output media type.
+          schema:
+            type: string
+            enum: [text/vnd.apiblueprint]
+          example: text/vnd.apiblueprint
+      requestBody:
+        required: true
+        description: API Elements document to compose from.
+        content:
+          application/vnd.refract+json:
+            schema:
+              $ref: '#/components/schemas/ApiElement'
+          application/vnd.refract.parse-result+json:
+            schema:
+              $ref: '#/components/schemas/ParseResult'
+      responses:
+        '200':
+          description: The composed API Blueprint document.
+          content:
+            text/vnd.apiblueprint:
+              schema:
+                type: string
+        '415':
+          description: >-
+            Unsupported Content-Type, or an unsupported Refract serialisation
+            version.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unsupportedRefractVersion:
+                  value:
+                    message: 'Unsupported Refract Serialisation version `2.0`. Supported: 0.6, 1.0.'
+                unsupportedContentType:
+                  value:
+                    message: >-
+                      Unsupported Content-Type `application/vnd.apiblueprint.ast+json`.
+                      Supported: application/vnd.refract+json,
+                      application/vnd.refract.parse-result+json. API Blueprint AST is
+                      no longer supported.
+  /validate:
+    post:
+      tags: [Validate]
+      operationId: validateApiDescription
+      summary: Validate
+      description: >-
+        Validate an API description and return only the annotations. Returns an
+        API Elements parse result whose content carries the warnings and errors;
+        an empty content array means the document is valid.
+
+
+        UNDOCUMENTED SURFACE, ESTABLISHED BY PROBE. This operation is advertised
+        by the live service root as the `validate` affordance but it does NOT
+        appear in the provider's published API Blueprint contract. Everything
+        below was established by unauthenticated probes on 2026-09-02 and by
+        reading the service's own error messages; no behaviour is assumed.
+      x-probed:
+        checked: '2026-09-02'
+        evidence:
+          - 'POST /validate with no body -> 400 {"message":"Body is not valid JSON"}'
+          - 'POST /validate {} -> 400 {"message":"Missing input document (`input_document`)"}'
+          - 'POST /validate {input_document, input_type:"text/vnd.apiblueprint"} -> 200 {"element":"parseResult","content":[]}'
+          - 'POST /validate with a document missing a status code -> 200 with one annotation, class "warning", code 6'
+          - 'GET /validate -> 405; OPTIONS /validate -> 204 Access-Control-Allow-Methods: POST'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformRequest'
+      responses:
+        '200':
+          description: >-
+            An API Elements parse result carrying only annotations. Empty content
+            means the document validated cleanly.
+          content:
+            application/vnd.refract.parse-result+json:
+              schema:
+                $ref: '#/components/schemas/ParseResult'
+        '400':
+          description: Body is not valid JSON, or `input_document` is missing.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method not allowed. Only POST is accepted.
+        '415':
+          description: >-
+            `input_type` is missing or names an unsupported input media type.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: >-
+                  Content-Type "undefined" is not supported. Supported MIME types:
+                  text/vnd.apiblueprint, text/vnd.legacyblueprint, application/swagger,
+                  application/vnd.oai.openapi
+  /transform:
+    post:
+      tags: [Transform]
+      operationId: transformApiDescription
+      summary: Transform
+      description: >-
+        Transform an API description from one format into another. Takes the
+        input document and both media types in a JSON envelope rather than in
+        HTTP headers, and returns the result in a JSON envelope
+        (`output_type` + `output_document`) as application/hal+json.
+
+
+        UNDOCUMENTED SURFACE, ESTABLISHED BY PROBE — same caveat as /validate.
+        Note the live service accepts `application/vnd.oai.openapi` as an input
+        media type, which the provider's published contract does not mention.
+      x-probed:
+        checked: '2026-09-02'
+        evidence:
+          - 'POST /transform {input_document, input_type} with no output_type -> 406 listing the supported output types'
+          - 'POST /transform {input_document, input_type:"text/vnd.apiblueprint", output_type:"application/vnd.refract.parse-result+json"} -> 200 application/hal+json {"output_type":..., "output_document":"..."}'
+          - 'GET /transform -> 405; OPTIONS /transform -> 204 Access-Control-Allow-Methods: POST'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformRequest'
+      responses:
+        '200':
+          description: The transformed document, wrapped in a JSON envelope.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/TransformResponse'
+        '400':
+          description: Body is not valid JSON, or `input_document` is missing.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method not allowed. Only POST is accepted.
+        '406':
+          description: '`output_type` is missing or names an unsupported output media type.'
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '415':
+          description: '`input_type` is missing or names an unsupported input media type.'
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ServiceRoot:
+      type: object
+      description: HAL representation of the service root.
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              href:
+                type: string
+            required: [href]
+      required: [_links]
+    Error:
+      type: object
+      description: >-
+        The vnd.error media type as used by this API. Carries a single human
+        readable message.
+      properties:
+        message:
+          type: string
+      required: [message]
+    ApiElement:
+      type: object
+      description: >-
+        A Refract / API Elements element. Structure is defined by the API
+        Elements element schema, saved in this repository at
+        json-schema/api-blueprint-api-elements-element-schema.json.
+      properties:
+        element:
+          type: string
+        meta:
+          type: object
+        attributes:
+          type: object
+        content: {}
+      required: [element]
+    ParseResult:
+      allOf:
+        - $ref: '#/components/schemas/ApiElement'
+      description: >-
+        A Refract Parse Result element (`element: parseResult`) whose content
+        carries the parsed API category plus any annotations.
+    TransformRequest:
+      type: object
+      description: >-
+        JSON envelope used by /validate and /transform. Field names were
+        established by probe, from the service's own 400/415/406 error messages.
+      properties:
+        input_document:
+          type: string
+          description: The API description document to process.
+        input_type:
+          type: string
+          description: Media type of input_document.
+          enum:
+            - text/vnd.apiblueprint
+            - text/vnd.legacyblueprint
+            - application/swagger
+            - application/vnd.oai.openapi
+        output_type:
+          type: string
+          description: >-
+            Desired output media type. Required by /transform, ignored by
+            /validate.
+          enum:
+            - application/vnd.refract.parse-result
+            - application/vnd.refract.parse-result+json
+            - application/vnd.refract.parse-result+yaml
+            - application/vnd.refract.parse-result; version=0.6
+            - application/vnd.refract.parse-result; version=1.0
+            - application/vnd.refract.parse-result+json; version=0.6
+            - application/vnd.refract.parse-result+json; version=1.0
+            - application/vnd.refract.parse-result+yaml; version=0.6
+            - application/vnd.refract.parse-result+yaml; version=1.0
+      required:
+        - input_document
+        - input_type
+    TransformResponse:
+      type: object
+      description: JSON envelope returned by /transform.
+      properties:
+        output_type:
+          type: string
+        output_document:
+          type: string
+      required:
+        - output_type
+        - output_document

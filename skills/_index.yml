@@ -1,0 +1,25 @@
+generated: '2026-09-02'
+method: generated
+source: >-
+  Packaged Agent Skills generated from
+  openapi/api-blueprint-parsing-service-openapi.yml. Every operationId below was
+  verified verbatim in that document, which is itself derived from the
+  provider's own API Blueprint contract in apib/ and reconciled against live
+  unauthenticated probes of https://api.apiblueprint.org on 2026-09-02.
+  Cross-cutting rules cite ../conventions/, ../errors/, ../authentication/ and
+  ../lifecycle/.
+provider: API Blueprint
+providerId: api-blueprint
+skills:
+  - file: api-blueprint-parse-api-description.md
+    name: Parse an API description into API Elements
+    api: openapi/api-blueprint-parsing-service-openapi.yml
+    operations: [listAffordances, parseApiDescription]
+  - file: api-blueprint-validate-api-description.md
+    name: Validate an API description and read its annotations
+    api: openapi/api-blueprint-parsing-service-openapi.yml
+    operations: [validateApiDescription]
+  - file: api-blueprint-convert-openapi-to-blueprint.md
+    name: Convert between API description formats
+    api: openapi/api-blueprint-parsing-service-openapi.yml
+    operations: [transformApiDescription, composeApiDescription]

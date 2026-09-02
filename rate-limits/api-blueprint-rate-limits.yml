@@ -4,88 +4,46 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: API Blueprint
 providerId: api-blueprint
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - API Design
-  - Specification Language
-  - Markdown
-  - Documentation
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the API Blueprint API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - API Blueprint
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - API Blueprint
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - API Blueprint
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - API Blueprint
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - API Blueprint
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+modified: '2026-09-02'
+generated: '2026-09-02'
+method: probed
+source: >-
+  Live unauthenticated calls to https://api.apiblueprint.org on 2026-09-02
+  (GET /, POST /parser, POST /validate, POST /transform, OPTIONS on each), plus
+  a documentation search across apiblueprint.org, /developers.html and the
+  provider's own API Blueprint contract in apib/.
+limit_count: 0
+note: >-
+  NO RATE LIMITS ARE PUBLISHED, AND NONE WERE OBSERVED. The provider's contract
+  documents no quota, no throttle and no 429. Every response captured during
+  this pass carried the same small header set — Date, Content-Type,
+  Content-Length, Connection and three Access-Control-Allow-* headers — and no
+  rate-limit header of any family. Repeated calls in quick succession all
+  returned 200. This is an honest zero: an absence of published limits, not a
+  guarantee of unlimited capacity. An agent has no runtime signal to back off
+  on, and no documented ceiling to design against.
+
+
+  SUPERSEDES A SCAFFOLD. Until this pass this file described free /
+  professional / enterprise tiers at 10, 100 and 1,000 requests per minute with
+  X-RateLimit-* headers. None of that was ever published by API Blueprint; it
+  came from the 2026-05-04 bulk sweep. It has been removed.
+headers_observed: []
+headers_documented: []
+retry_after: false
+status_on_exhaustion: null
+limits: []
+policies: []
+observed_responses:
+  - request: 'GET https://api.apiblueprint.org/'
+    status: 200
+    rate_limit_headers: []
+  - request: 'POST https://api.apiblueprint.org/parser (text/vnd.apiblueprint)'
+    status: 200
+    rate_limit_headers: []
+  - request: 'POST https://api.apiblueprint.org/transform (application/json)'
+    status: 200
+    rate_limit_headers: []
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

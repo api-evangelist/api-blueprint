@@ -1,0 +1,135 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  Derived from openapi/api-blueprint-parsing-service-openapi.yml and from the
+  provider-published API Elements element schema saved at
+  json-schema/api-blueprint-api-elements-element-schema.json.
+provider: API Blueprint
+providerId: api-blueprint
+note: >-
+  This API has no persistent resources. There are no records, no identifiers and
+  no relationships between stored entities — the "data model" is the shape of
+  the documents that pass through it. The entities below are message shapes, not
+  rows.
+entities:
+  - name: ServiceRoot
+    kind: representation
+    media_type: application/hal+json
+    description: >-
+      The entry point. Carries only a _links object naming the available
+      affordances.
+    fields:
+      - name: _links
+        type: object
+        description: >-
+          Map of link relation to { href }. Observed relations 2026-09-02: self,
+          validate, transform, parse, compose.
+  - name: ApiElement
+    kind: document
+    media_type: application/vnd.refract+json
+    description: >-
+      A Refract element — the recursive structure API Elements is built from.
+      Schema published by the provider.
+    fields:
+      - name: element
+        type: string
+        required: true
+        description: The element name, e.g. category, resource, transition, httpTransaction.
+      - name: meta
+        type: object
+        description: Title, description and classes.
+      - name: attributes
+        type: object
+      - name: content
+        type: any
+        description: >-
+          A primitive, another element, or an array of elements. This is where
+          the recursion lives.
+  - name: ParseResult
+    kind: document
+    media_type: application/vnd.refract.parse-result+json
+    description: >-
+      An ApiElement whose `element` is "parseResult". Its content array carries
+      the parsed api category plus any annotations.
+    fields:
+      - name: element
+        type: string
+        const: parseResult
+      - name: content
+        type: array
+        description: Category and annotation elements.
+  - name: Annotation
+    kind: element
+    description: >-
+      A warning or error raised while parsing. Observed live 2026-09-02:
+      {"element":"annotation","meta":{"classes":["warning"]},"attributes":{"code":6,"sourceMap":[...]},"content":"missing response HTTP status code, assuming 'Response 200'"}.
+    fields:
+      - name: meta.classes
+        type: array
+        description: 'warning or error.'
+      - name: attributes.code
+        type: integer
+      - name: attributes.sourceMap
+        type: array
+        description: Character offset and length ranges into the source document.
+      - name: content
+        type: string
+        description: The human-readable message.
+  - name: TransformRequest
+    kind: envelope
+    media_type: application/json
+    description: >-
+      JSON envelope used by the undocumented /validate and /transform
+      operations. Field names established by probe.
+    fields:
+      - name: input_document
+        type: string
+        required: true
+      - name: input_type
+        type: string
+        required: true
+      - name: output_type
+        type: string
+        description: Required by /transform, ignored by /validate.
+  - name: TransformResponse
+    kind: envelope
+    media_type: application/hal+json
+    fields:
+      - name: output_type
+        type: string
+      - name: output_document
+        type: string
+  - name: Error
+    kind: representation
+    media_type: application/vnd.error+json
+    description: One field, `message`. See errors/api-blueprint-problem-types.yml.
+    fields:
+      - name: message
+        type: string
+relationships:
+  - from: ParseResult
+    to: ApiElement
+    kind: is_a
+    via: element
+    note: A parse result is an API Element with element = "parseResult".
+  - from: ParseResult
+    to: Annotation
+    kind: has_many
+    via: content
+  - from: ApiElement
+    to: ApiElement
+    kind: has_many
+    via: content
+    note: >-
+      API Elements is recursive — an element's content is itself elements. There
+      is no flat entity table to model.
+  - from: TransformResponse
+    to: ParseResult
+    kind: has_one
+    via: output_document
+    note: output_document carries the serialised parse result as a string.
+id_prefixes: []
+persistence: none
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,58 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  derive-authentication.py produced nothing because the provider's contract
+  declares no securitySchemes — correctly, because the API has no
+  authentication at all. This file records that as a positive finding rather
+  than an absence. Established by unauthenticated live probes of
+  https://api.apiblueprint.org on 2026-09-02 and by reading the provider's API
+  Blueprint contract in apib/, which documents no credential of any kind.
+provider: API Blueprint
+providerId: api-blueprint
+summary: >-
+  The API Blueprint parsing service is completely open. There is no API key, no
+  token, no OAuth flow, no sign-up and no account. Every operation was called
+  successfully on 2026-09-02 with no credential.
+schemes: []
+authentication_required: false
+signup_required: false
+schemes_detail:
+  - id: none
+    type: none
+    description: >-
+      No authentication. Confirmed by calling every operation anonymously:
+      GET / -> 200; POST /parser with an API Blueprint body -> 200 with a parse
+      result; POST /validate -> 200; POST /transform -> 200. No 401 or 403 was
+      returned by any request during the pass.
+discovery:
+  - path: /.well-known/oauth-authorization-server
+    host: api.apiblueprint.org
+    status: 404
+  - path: /.well-known/openid-configuration
+    host: api.apiblueprint.org
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    host: api.apiblueprint.org
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    host: apiblueprint.org
+    status: 404
+  - path: /.well-known/openid-configuration
+    host: apiblueprint.org
+    status: 404
+transport:
+  https: true
+  tls_version: TLSv1.2
+  hsts: false
+  note: >-
+    TLS observed at TLSv1.2 on api.apiblueprint.org (the marketing host
+    apiblueprint.org negotiates TLSv1.3). HSTS is not set on either host. See
+    security/api-blueprint-domain-security.yml.
+agent_note: >-
+  An agent can call this API with no onboarding step whatsoever. That is the
+  strongest agent-access property in this profile and the weakest security one:
+  there is no way to attribute, meter or revoke a caller, and no rate limit is
+  published or observed.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

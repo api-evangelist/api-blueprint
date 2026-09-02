@@ -39,10 +39,14 @@ tags:
   - Specification Language
   - Markdown
   - Documentation
+  - API Description Language
+  - Parsing
+  - Open Source
+  - Developer Tools
 url: >-
   https://raw.githubusercontent.com/api-evangelist/api-blueprint/refs/heads/main/apis.yml
 created: '2026-03-25'
-modified: '2026-04-19'
+modified: '2026-09-02'
 specificationVersion: '0.23'
 apis:
   - aid: api-blueprint:api-blueprint
@@ -66,6 +70,43 @@ apis:
         url: https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md
       - type: GettingStarted
         url: https://apiblueprint.org/documentation/tutorial.html
+  - aid: api-blueprint:api-blueprint-api
+    name: API Blueprint API
+    description: >-
+      The API Blueprint API is the parsing service operated at
+      api.apiblueprint.org by the API Blueprint project. It parses API Blueprint
+      and Swagger 2.0 documents into the Refract Parse Result Namespace (API
+      Elements) and composes API Blueprint back out of API Elements. The service
+      is open, requires no authentication or API key, and is driven entirely by
+      HTTP content negotiation. Probed live and answering on 2026-09-02 even
+      though every apiaryio GitHub repository was archived on 2024-11-08.
+    humanURL: https://apiblueprintapi.docs.apiary.io/
+    baseURL: https://api.apiblueprint.org
+    tags:
+      - API Design
+      - Parsing
+      - Specification Language
+    properties:
+      - type: OpenAPI
+        url: openapi/api-blueprint-parsing-service-openapi.yml
+      - type: APIBlueprint
+        url: apib/api-blueprint-api.apib
+      - type: Documentation
+        url: https://apiblueprintapi.docs.apiary.io/
+      - type: SourceCode
+        url: https://github.com/apiaryio/api.apiblueprint.org
+      - type: Authentication
+        url: authentication/api-blueprint-authentication.yml
+      - type: ErrorCatalog
+        url: errors/api-blueprint-problem-types.yml
+      - type: Conventions
+        url: conventions/api-blueprint-conventions.yml
+      - type: Overlay
+        url: overlays/api-blueprint-parsing-service-overlay.yaml
+      - type: DataModel
+        url: data-model/api-blueprint-data-model.yml
+      - type: JSONSchema
+        url: json-schema/api-blueprint-api-elements-element-schema.json
 common:
   - type: IssueTracker
     url: https://github.com/apiaryio/api-blueprint/issues
@@ -140,6 +181,45 @@ common:
         description: >-
           The swagger2blueprint tool converted Swagger API descriptions into
           API Blueprint format for migration workflows.
+  - type: Packages
+    url: packages/api-blueprint-packages.yml
+  - type: SDKs
+    url: packages/api-blueprint-packages.yml
+  - type: CLI
+    url: cli/api-blueprint-cli.yml
+  - type: LLMsTxt
+    url: llms/api-blueprint-llms.txt
+  - type: Conformance
+    url: conformance/api-blueprint-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/api-blueprint-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/api-blueprint-changelog.yml
+  - type: Plans
+    url: plans/api-blueprint-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/api-blueprint-rate-limits.yml
+  - type: MCPServer
+    url: mcp/api-blueprint-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: FinOps
+    url: finops/api-blueprint-finops.yml
+  - type: DeveloperPortal
+    url: https://apiblueprint.org/developers.html
+  - type: Support
+    url: https://apiblueprint.org/support.html
+  - type: Tutorials
+    url: https://apiblueprint.org/documentation/tutorial.html
+  - type: Reference
+    url: https://apiblueprint.org/documentation/specification.html
+  - type: SourceCode
+    url: https://github.com/apiaryio/api-blueprint
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-02'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1

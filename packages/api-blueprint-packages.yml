@@ -1,0 +1,161 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  Registry metadata endpoints queried unauthenticated on 2026-09-02
+  (registry.npmjs.org, rubygems.org/api/v1/gems, pypi.org/pypi) plus the
+  apiaryio GitHub organization repository listing. Every package below is
+  published from an apiaryio-owned repository, which is why official is true.
+  The whole apiaryio organization was archived on 2024-11-08, so no entry here
+  has a live release channel.
+provider: API Blueprint
+providerId: api-blueprint
+note: >-
+  DECAY SIGNAL. The newest first-party release in this table is protagonist
+  2.3.0 (2023-07-28). The API Blueprint parsing service at
+  https://api.apiblueprint.org was probed live and answering on 2026-09-02, so
+  the service outlives every client library that wraps it by more than three
+  years. There is no first-party HTTP client for the parsing service at all —
+  the packages below are local parsers and test tooling, not API clients.
+packages:
+  - name: protagonist
+    registry: npm
+    url: https://www.npmjs.com/package/protagonist
+    repository: https://github.com/apiaryio/protagonist
+    official: true
+    language: JavaScript
+    version: 2.3.0
+    published: '2023-07-28'
+    description: Node.js wrapper (native binding) for the Drafter API Blueprint parser.
+  - name: drafter
+    registry: npm
+    url: https://www.npmjs.com/package/drafter
+    repository: https://github.com/apiaryio/drafter-npm
+    official: true
+    language: JavaScript
+    version: 2.0.0
+    published: '2020-03-17'
+    description: >-
+      Node API Blueprint parser. Wraps protagonist and falls back to the pure-JS
+      drafter.js when the native binding will not install.
+  - name: drafter.js
+    registry: npm
+    url: https://www.npmjs.com/package/drafter.js
+    repository: https://github.com/apiaryio/drafter.js
+    official: true
+    language: JavaScript
+    version: 3.2.0
+    published: '2020-04-20'
+    description: Pure JavaScript build of Drafter, compiled with Emscripten.
+  - name: dredd
+    registry: npm
+    url: https://www.npmjs.com/package/dredd
+    repository: https://github.com/apiaryio/dredd
+    official: true
+    language: JavaScript
+    version: 14.1.0
+    published: '2021-11-16'
+    description: >-
+      Language-agnostic HTTP API testing framework that validates a running API
+      against its API Blueprint or OpenAPI contract.
+  - name: gavel
+    registry: npm
+    url: https://www.npmjs.com/package/gavel
+    repository: https://github.com/apiaryio/gavel.js
+    official: true
+    language: JavaScript
+    version: 10.0.4
+    published: '2021-12-09'
+    description: Validator of HTTP transactions; the assertion engine underneath Dredd.
+  - name: api-elements
+    registry: npm
+    url: https://www.npmjs.com/package/api-elements
+    repository: https://github.com/apiaryio/api-elements.js
+    official: true
+    language: JavaScript
+    version: 0.3.2
+    published: '2020-09-23'
+    description: JavaScript library for consuming API Elements (Refract) documents.
+  - name: fury
+    registry: npm
+    url: https://www.npmjs.com/package/fury
+    repository: https://github.com/apiaryio/api-elements.js
+    official: true
+    language: JavaScript
+    version: 3.0.0-beta.14
+    published: '2020-04-20'
+    description: >-
+      API Description SDK. Parses and serialises API Blueprint, Swagger and
+      OpenAPI 3 into API Elements. Last release is still a beta.
+  - name: '@apielements/apib-parser'
+    registry: npm
+    url: https://www.npmjs.com/package/@apielements/apib-parser
+    repository: https://github.com/apiaryio/api-elements.js
+    official: true
+    language: JavaScript
+    version: 0.20.1
+    published: '2020-08-06'
+    description: API Blueprint parser adapter producing API Elements.
+  - name: '@apielements/openapi3-parser'
+    registry: npm
+    url: https://www.npmjs.com/package/@apielements/openapi3-parser
+    repository: https://github.com/apiaryio/api-elements.js
+    official: true
+    language: JavaScript
+    version: 0.16.1
+    published: '2021-07-15'
+    description: OpenAPI 3 parser adapter producing API Elements.
+  - name: swagger2blueprint
+    registry: npm
+    url: https://www.npmjs.com/package/swagger2blueprint
+    repository: https://github.com/apiaryio/swagger2blueprint
+    official: true
+    language: JavaScript
+    version: 1.1.0
+    published: '2016-08-30'
+    description: Converts Swagger API descriptions into API Blueprint.
+  - name: apiaryio
+    registry: rubygems
+    url: https://rubygems.org/gems/apiaryio
+    repository: https://github.com/apiaryio/apiary-client
+    official: true
+    language: Ruby
+    version: 0.17.0
+    published: '2021-10-21'
+    description: >-
+      Apiary CLI client. Previews, publishes and fetches API Blueprint documents.
+      See cli/api-blueprint-cli.yml.
+  - name: redsnow
+    registry: rubygems
+    url: https://rubygems.org/gems/redsnow
+    repository: https://github.com/apiaryio/redsnow
+    official: true
+    language: Ruby
+    version: 0.4.4
+    published: '2017-01-05'
+    description: Ruby bindings for the Snow Crash API Blueprint parser.
+  - name: dredd_hooks
+    registry: pypi
+    url: https://pypi.org/project/dredd_hooks/
+    repository: https://github.com/apiaryio/dredd-hooks-python
+    official: true
+    language: Python
+    version: 0.2.0
+    published: '2018-04-09'
+    description: Python hooks bridge for the Dredd API testing framework.
+  - name: drafter
+    registry: github-releases
+    url: https://github.com/apiaryio/drafter/releases
+    repository: https://github.com/apiaryio/drafter
+    official: true
+    language: C++
+    version: null
+    published: null
+    description: >-
+      The reference API Blueprint parser, written in C++ and distributed as
+      source plus GitHub release tarballs. Recorded as null/null because GitHub
+      Releases is not a package registry with a metadata endpoint of the kind
+      this artifact records; the repository was last pushed 2024-03-20 and is
+      archived.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

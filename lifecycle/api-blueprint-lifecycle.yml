@@ -1,0 +1,105 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  GitHub repository and release metadata for apiaryio/api-blueprint and the
+  apiaryio organization (read 2026-09-02), plus live probes of
+  https://api.apiblueprint.org and https://apiblueprint.org on the same date.
+provider: API Blueprint
+providerId: api-blueprint
+headline: >-
+  ARCHIVED PROJECT, LIVE SERVICE. Every apiaryio repository — the specification,
+  the parsers, Dredd, the website and the API's own contract — was archived on
+  2024-11-08 and is read-only. The parsing service at api.apiblueprint.org was
+  nonetheless probed live and fully functional on 2026-09-02. Consumers should
+  treat it as running on borrowed time: there is no owner accepting issues, no
+  SLA, no status page and no deprecation policy that would warn them before it
+  stops.
+status: archived-but-operating
+maintenance:
+  archived: true
+  archived_on: '2024-11-08'
+  scope: >-
+    The whole apiaryio GitHub organization, marked archived by an administrator.
+    apiaryio/api-blueprint is archived with default branch master, last pushed
+    2023-08-19, MIT licensed, 8,634 stars.
+  accepting_issues: false
+  evidence: https://github.com/apiaryio
+service:
+  host: api.apiblueprint.org
+  live: true
+  checked: '2026-09-02'
+  evidence:
+    - 'GET https://api.apiblueprint.org/ -> 200 application/hal+json'
+    - 'POST https://api.apiblueprint.org/parser (text/vnd.apiblueprint) -> 200 application/vnd.refract.parse-result+json'
+    - 'POST https://api.apiblueprint.org/validate -> 200'
+    - 'POST https://api.apiblueprint.org/transform -> 200 application/hal+json'
+  tls_certificate_expires: 'Oct 15 23:59:59 2026 GMT'
+versioning:
+  api: none
+  detail: >-
+    The HTTP API is unversioned. What is versioned is the API Blueprint FORMAT
+    (release series 1A..1A9) and the Refract output serialisation (0.6, 1.0),
+    the latter negotiated as a media-type parameter.
+  format_current: 1A9
+  format_released: '2015-06-08'
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No RFC 8594 Sunset or Deprecation header was present on any response
+    observed on 2026-09-02, and no deprecation policy is published anywhere on
+    apiblueprint.org. A partial exception exists inside the contract itself: the
+    composer's 415 response states that "API Blueprint AST is no longer
+    supported", which is a retirement notice for an input format, delivered as a
+    runtime error rather than as a policy.
+sla:
+  published: false
+status_page:
+  published: false
+  detail: >-
+    No status page exists. No status.apiblueprint.org and no statuspage.io or
+    equivalent is linked from apiblueprint.org, its developer page or its
+    support page.
+support:
+  channels:
+    - name: GitHub issues
+      url: https://github.com/apiaryio/api-blueprint/issues
+      note: The repository is archived, so the tracker is read-only.
+    - name: Support page
+      url: https://apiblueprint.org/support.html
+deprecated_operations: []
+contract_drift:
+  - finding: >-
+      The live service root advertises two affordances the provider's published
+      contract does not describe — `validate` (/validate) and `transform`
+      (/transform).
+    evidence: >-
+      GET https://api.apiblueprint.org/ returned _links containing self,
+      validate, transform, parse and compose on 2026-09-02, while
+      apib/root.apib documents only self, parse and compose.
+    impact: >-
+      Two working operations are undiscoverable from the documentation. Both are
+      modeled in openapi/api-blueprint-parsing-service-openapi.yml with an
+      x-probed evidence block.
+  - finding: >-
+      The live service accepts application/vnd.oai.openapi as an input media
+      type; the published contract lists only text/vnd.apiblueprint,
+      text/vnd.legacyblueprint and application/swagger.
+    evidence: >-
+      The 415 message returned by POST /validate on 2026-09-02 names
+      application/vnd.oai.openapi among the supported MIME types.
+    impact: OpenAPI 3 input support exists but is undocumented.
+  - finding: >-
+      The profile Link header on the live service root points at
+      https://plutonium.docs.apiary.io, while apib/root.apib says the header
+      should point at http://docs.apiblueprint.apiary.io.
+    evidence: >-
+      Response header observed on GET https://api.apiblueprint.org/,
+      2026-09-02: 'Link: <https://plutonium.docs.apiary.io>; rel="profile"'.
+    impact: >-
+      An agent following the profile link is sent to an internal-looking host
+      rather than to the documented one.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

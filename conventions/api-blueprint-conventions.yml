@@ -1,0 +1,133 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  Derived from the provider's API Blueprint contract in apib/ (chiefly
+  apib/introduction.md, which is the provider's own statement of the API's
+  cross-cutting semantics) and from live unauthenticated responses observed from
+  https://api.apiblueprint.org on 2026-09-02.
+provider: API Blueprint
+providerId: api-blueprint
+authentication:
+  style: none
+  detail: >-
+    No credential of any kind. See authentication/api-blueprint-authentication.yml.
+content_negotiation:
+  primary_interface: true
+  detail: >-
+    The provider's own words, from apib/introduction.md: "The API uses content
+    negotiation heavily. Send requests with the Content-Type header set to the
+    right input media type and use the Accept header to select desired output as
+    a response." This is the API's main dispatch mechanism — the same POST
+    /parser behaves differently based purely on Content-Type and Accept.
+  input_media_types:
+    - text/vnd.apiblueprint
+    - text/vnd.legacyblueprint
+    - application/swagger+json
+    - application/swagger+yaml
+    - application/vnd.oai.openapi
+    - application/vnd.refract+json
+    - application/vnd.refract.parse-result+json
+  output_media_types:
+    - application/hal+json
+    - application/vnd.refract.parse-result+json
+    - application/vnd.refract.parse-result+yaml
+    - text/vnd.apiblueprint
+    - application/vnd.error+json
+  versioning_via_media_type: true
+  version_parameter_detail: >-
+    Output format versions are selected with a media-type parameter, not a URL
+    segment or a header: `Accept: application/vnd.refract.parse-result+json;
+    version=1.0`. Supported versions are 0.6 and 1.0.
+hypermedia:
+  style: hal
+  detail: >-
+    GET / returns application/hal+json with a _links object naming the
+    affordances. A `Link: <...>; rel="profile"` response header points at the
+    documentation. Observed live 2026-09-02.
+pagination:
+  supported: false
+  detail: No collection resources exist; every operation returns a single document.
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_id_tracing:
+  supported: false
+  detail: >-
+    No X-Request-Id, X-Correlation-Id or equivalent was present on any response
+    observed on 2026-09-02. There is no documented way to reference a specific
+    request when reporting a problem.
+versioning:
+  api_version_scheme: none
+  detail: >-
+    The API itself is unversioned — no /v1 prefix, no version header. The only
+    version negotiated is the output serialisation version (0.6 / 1.0). The
+    document FORMAT the API parses is versioned separately as the API Blueprint
+    format release (currently 1A9). See changelog/api-blueprint-changelog.yml.
+error_envelope:
+  media_type: application/vnd.error+json
+  shape: '{ "message": "<string>" }'
+  rfc9457: false
+  detail: >-
+    One field, no error code, no type URI. Agents must string-match. Full
+    catalogue in errors/api-blueprint-problem-types.yml.
+rate_limit_signalling:
+  headers: []
+  detail: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header appeared on any response
+    observed on 2026-09-02, and no limits are documented. See
+    rate-limits/api-blueprint-rate-limits.yml.
+cors:
+  enabled: true
+  allow_origin: '*'
+  allow_headers: Content-Type,Accept
+  detail: >-
+    Observed 2026-09-02. GET / advertised Access-Control-Allow-Methods: GET;
+    OPTIONS on /parser, /composer, /validate and /transform each returned 204
+    with Access-Control-Allow-Methods: POST. The API is callable directly from a
+    browser.
+idempotency:
+  supported: true
+  mechanism: structural
+  header: null
+  scope: null
+  retention: null
+  detail: >-
+    There is no Idempotency-Key header, and none is needed. All four
+    transformation operations are pure functions of the request body: they read
+    a document, compute a result and return it, storing nothing. Replaying an
+    identical request returns an identical response and creates no duplicate.
+    GET / is safe. This is idempotency by construction rather than by policy, so
+    an agent can retry any operation freely.
+dry_run_mode:
+  supported: na
+  detail: >-
+    Not applicable. No operation changes state, so there is nothing to rehearse.
+    /validate is arguably the whole API's dry run — it returns the annotations a
+    parse would produce without producing the parse result.
+reversibility:
+  grade: na
+  applicable: false
+  detail: >-
+    NOT APPLICABLE — the API has no write surface. All five operations are
+    read/transform only: GET / lists affordances, and POST /parser, /composer,
+    /validate and /transform each compute a result from the request body and
+    return it. Nothing is created, stored, mutated or deleted on the provider's
+    side, so there is no action for an agent to take back and no window inside
+    which it would have to act. The POST verb here carries a request body; it
+    does not signal a state change.
+  write_surfaces: []
+  evidence: >-
+    Established from the provider's contract (apib/parser.apib and
+    apib/composer.apib describe only transformations, and apib/root.apib
+    advertises only `parse` and `compose`) and confirmed live on 2026-09-02:
+    repeated identical POSTs returned identical responses and the service
+    exposes no resource to read back, list or delete.
+cross_references:
+  errors: errors/api-blueprint-problem-types.yml
+  lifecycle: lifecycle/api-blueprint-lifecycle.yml
+  authentication: authentication/api-blueprint-authentication.yml
+  rate_limits: rate-limits/api-blueprint-rate-limits.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,138 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  Derived from the error responses in the provider's own API Blueprint contract
+  (apib/parser.apib, apib/composer.apib, apib/introduction.md) and from live
+  unauthenticated probes of https://api.apiblueprint.org on 2026-09-02. Every
+  `message` string below was either copied verbatim from the provider's contract
+  or captured verbatim from a live response — none is paraphrased.
+provider: API Blueprint
+providerId: api-blueprint
+format: vnd.error
+media_type: application/vnd.error+json
+rfc9457: false
+note: >-
+  This API predates RFC 9457 / RFC 7807. It uses the vnd.error media type, as
+  stated in apib/introduction.md, and the envelope carries exactly one member:
+  `message`. There is no `type` URI, no `title`, no `instance` and no
+  machine-readable error code, so an agent must match on the message string.
+envelope:
+  fields:
+    - name: message
+      type: string
+      description: Human-readable description of the error. The only field in the envelope.
+problem_types:
+  - id: unsupported-input-media-type
+    status: 415
+    operations: [parseApiDescription, validateApiDescription, transformApiDescription]
+    title: Unsupported input media type
+    message: >-
+      Content-Type "undefined" is not supported. Supported MIME types:
+      text/vnd.apiblueprint, text/vnd.legacyblueprint, application/swagger
+    remediation: >-
+      Set Content-Type (on /parser) or input_type (on /validate and /transform)
+      to one of the listed media types.
+    evidence: apib/parser.apib — Response 415 (application/vnd.error+json)
+  - id: unsupported-input-media-type-live
+    status: 415
+    operations: [validateApiDescription, transformApiDescription]
+    title: Unsupported input media type (live variant)
+    message: >-
+      Content-Type "undefined" is not supported. Supported MIME types:
+      text/vnd.apiblueprint, text/vnd.legacyblueprint, application/swagger,
+      application/vnd.oai.openapi
+    remediation: Set input_type to one of the listed media types.
+    evidence: >-
+      Captured live 2026-09-02 from POST https://api.apiblueprint.org/validate.
+      DRIFT: the live list carries application/vnd.oai.openapi, which the
+      provider's published contract does not mention.
+  - id: unsupported-output-media-type
+    status: 406
+    operations: [parseApiDescription, transformApiDescription]
+    title: No acceptable output media type
+    message: >-
+      None of requested Content-Types "application/vnd.apiblueprint.parseresult+json;
+      version=2.2" is supported. Supported MIME types:
+      application/vnd.refract.parse-result, application/vnd.refract.parse-result;
+      version=0.6, application/vnd.refract.parse-result; version=1.0,
+      application/vnd.refract.parse-result+json,
+      application/vnd.refract.parse-result+json; version=0.6,
+      application/vnd.refract.parse-result+json; version=1.0,
+      application/vnd.refract.parse-result+yaml,
+      application/vnd.refract.parse-result+yaml; version=0.6,
+      application/vnd.refract.parse-result+yaml; version=1.0
+    remediation: >-
+      Send an Accept header (or output_type) naming one of the supported Refract
+      parse-result media types.
+    evidence: apib/parser.apib — Response 406 (application/vnd.error+json)
+  - id: unsupported-refract-version
+    status: 415
+    operations: [composeApiDescription]
+    title: Unsupported Refract serialisation version
+    message: 'Unsupported Refract Serialisation version `2.0`. Supported: 0.6, 1.0.'
+    remediation: Request version 0.6 or 1.0.
+    evidence: apib/composer.apib — Response 415 (application/vnd.error+json)
+  - id: unsupported-content-type-composer
+    status: 415
+    operations: [composeApiDescription]
+    title: Unsupported Content-Type on compose
+    message: >-
+      Unsupported Content-Type `application/vnd.apiblueprint.ast+json`. Supported:
+      application/vnd.refract+json, application/vnd.refract.parse-result+json.
+      API Blueprint AST is no longer supported.
+    remediation: >-
+      Send API Elements, not the retired API Blueprint AST. The AST format was
+      withdrawn and is not accepted.
+    evidence: apib/composer.apib — Response 415 (application/vnd.error+json)
+  - id: unparseable-document
+    status: 422
+    operations: [parseApiDescription]
+    title: Document could not be parsed
+    message: null
+    remediation: >-
+      The response body is a parse result, not a vnd.error envelope. Read the
+      `annotation` elements in its content for the errors and their source maps.
+    evidence: apib/parser.apib — Response 422 (application/vnd.refract.parse-result+yaml)
+  - id: body-not-json
+    status: 400
+    operations: [validateApiDescription, transformApiDescription]
+    title: Body is not valid JSON
+    message: Body is not valid JSON
+    remediation: Send a JSON object as the request body.
+    evidence: >-
+      Captured live 2026-09-02 from POST https://api.apiblueprint.org/validate
+      with a text/vnd.apiblueprint body.
+  - id: missing-input-document
+    status: 400
+    operations: [validateApiDescription, transformApiDescription]
+    title: Missing input document
+    message: 'Missing input document (`input_document`)'
+    remediation: Include the input_document member in the JSON envelope.
+    evidence: Captured live 2026-09-02 from POST https://api.apiblueprint.org/validate.
+  - id: method-not-allowed
+    status: 405
+    operations: [parseApiDescription, composeApiDescription, validateApiDescription, transformApiDescription]
+    title: Method Not Allowed
+    message: Method Not Allowed
+    remediation: All four transformation endpoints accept POST only.
+    evidence: >-
+      Captured live 2026-09-02 — GET https://api.apiblueprint.org/parser,
+      /composer, /validate and /transform each returned 405.
+  - id: not-found
+    status: 404
+    operations: []
+    title: Not Found
+    message: Not Found
+    remediation: Only /, /parser, /composer, /validate and /transform exist.
+    evidence: >-
+      Captured live 2026-09-02 — every probed path outside that set, including
+      every /.well-known/* path, returned 404 with this JSON body.
+warning_annotations:
+  note: >-
+    Non-fatal parse problems come back inside a 200 response as `annotation`
+    elements with class "warning", an integer `code` and a `sourceMap`. Observed
+    live 2026-09-02: code 6, "missing response HTTP status code, assuming
+    'Response 200'".
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

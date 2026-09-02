@@ -1,0 +1,65 @@
+# generated: '2026-09-02'
+# method: generated
+# source: >-
+#   API Evangelist enhancements over
+#   openapi/api-blueprint-parsing-service-openapi.yml. This overlay records the
+#   catalog-added context (archival status, licensing, tag descriptions,
+#   operation-level notes) separately from the contract itself so the OpenAPI
+#   stays a faithful translation of the provider's own API Blueprint document.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the API Blueprint API
+  version: 1.0.0
+extends: ../openapi/api-blueprint-parsing-service-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: api-blueprint
+      x-apievangelist-catalog: https://apis.io/provider/api-blueprint
+      x-contract-origin: >-
+        Translated by API Evangelist from the provider's own API Blueprint
+        contract at
+        https://github.com/apiaryio/api.apiblueprint.org/tree/master/source.
+      x-lifecycle-note: >-
+        Every apiaryio GitHub repository was archived on 2024-11-08. The service
+        described here was nonetheless probed live and answering on 2026-09-02.
+        Treat it as unmaintained but running: there is no SLA, no status page and
+        no deprecation policy.
+  - target: $.paths['/parser'].post
+    update:
+      x-idempotent: true
+      x-side-effects: none
+      x-apievangelist-note: >-
+        POST is used for the request body, not to create a resource. The
+        operation is a pure function of its input and stores nothing, so it is
+        naturally idempotent and there is nothing to reverse.
+  - target: $.paths['/composer'].post
+    update:
+      x-idempotent: true
+      x-side-effects: none
+      x-apievangelist-note: >-
+        As with /parser, POST carries the document to transform. The operation
+        creates no state.
+  - target: $.paths['/'].get
+    update:
+      x-hypermedia: hal
+      x-apievangelist-note: >-
+        The live service root observed on 2026-09-02 returned two affordances
+        beyond those in the published contract — `validate` (/validate) and
+        `transform` (/transform). Neither is described in the provider's .apib
+        source. Both were characterised by probe and are modeled in the OpenAPI
+        with an x-probed evidence block. The drift is recorded in
+        lifecycle/api-blueprint-lifecycle.yml.
+  - target: $.paths['/validate'].post
+    update:
+      x-idempotent: true
+      x-side-effects: none
+      x-contract-drift: >-
+        Undocumented in the provider's contract. Modeled here from probe only.
+  - target: $.paths['/transform'].post
+    update:
+      x-idempotent: true
+      x-side-effects: none
+      x-contract-drift: >-
+        Undocumented in the provider's contract, and accepts an input media type
+        (application/vnd.oai.openapi) the published contract never mentions.

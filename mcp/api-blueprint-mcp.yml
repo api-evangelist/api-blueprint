@@ -1,0 +1,92 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  No MCP server exists. Searched the apiaryio GitHub organization (every
+  repository archived 2024-11-08, none MCP-related), the apiblueprint.org tools
+  page, and probed https://api.apiblueprint.org/mcp with a tools/list JSON-RPC
+  POST on 2026-09-02, which returned 404 {"message":"Not Found"}. The tools
+  below are CANDIDATES derived from the three operations in
+  openapi/api-blueprint-parsing-service-openapi.yml. Nobody ships a server.
+provider: API Blueprint
+providerId: api-blueprint
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: probed
+probes:
+  - url: https://api.apiblueprint.org/mcp
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    status: 404
+    checked: '2026-09-02'
+tools:
+  - name: list_affordances
+    status: candidate
+    description: >-
+      Fetch the API Blueprint API service root and list the available
+      affordances as HAL link relations.
+    rest:
+      - listAffordances
+    inputSchema:
+      type: object
+      properties: {}
+  - name: parse_api_description
+    status: candidate
+    description: >-
+      Parse an API Blueprint, legacy Blueprint or Swagger 2.0 document into the
+      Refract Parse Result Namespace (API Elements).
+    rest:
+      - parseApiDescription
+    inputSchema:
+      type: object
+      properties:
+        document:
+          type: string
+          description: The API description document to parse (request body).
+        content_type:
+          type: string
+          enum:
+            - text/vnd.apiblueprint
+            - text/vnd.legacyblueprint
+            - application/swagger+json
+            - application/swagger+yaml
+        accept:
+          type: string
+          enum:
+            - application/vnd.refract.parse-result+json
+            - application/vnd.refract.parse-result+yaml
+            - application/vnd.refract.parse-result+json; version=1.0
+            - application/vnd.refract.parse-result+yaml; version=1.0
+            - application/vnd.refract.parse-result+json; version=0.6
+            - application/vnd.refract.parse-result+yaml; version=0.6
+      required:
+        - document
+        - content_type
+  - name: compose_api_description
+    status: candidate
+    description: >-
+      Compose an API Blueprint document from an API Elements API Category or
+      Parse Result.
+    rest:
+      - composeApiDescription
+    inputSchema:
+      type: object
+      properties:
+        document:
+          type: object
+          description: API Elements (Refract) document.
+        content_type:
+          type: string
+          enum:
+            - application/vnd.refract+json
+            - application/vnd.refract.parse-result+json
+      required:
+        - document
+        - content_type
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

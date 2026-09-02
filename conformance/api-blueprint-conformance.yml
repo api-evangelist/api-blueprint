@@ -1,0 +1,122 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  Derived from the provider's own API Blueprint contract (apib/), the live
+  responses observed from https://api.apiblueprint.org on 2026-09-02, and the
+  API Blueprint / MSON specification documents. Every entry cites the exact
+  location that carries the evidence.
+provider: API Blueprint
+providerId: api-blueprint
+conformance:
+  - id: hal
+    name: HAL — Hypertext Application Language (hal+json)
+    conforms: true
+    evidence: >-
+      The service root advertises its affordances as HAL. Declared in
+      apib/introduction.md ("this API uses the HAL+JSON media type to represent
+      resource states and to provide available affordances") and observed on the
+      wire: GET https://api.apiblueprint.org/ returned 200 with
+      Content-Type: application/hal+json and a _links object, 2026-09-02.
+  - id: vnd-error
+    name: vnd.error error media type
+    conforms: true
+    evidence: >-
+      apib/introduction.md — "Error responses use the vnd.error media type."
+      Error responses in apib/parser.apib and apib/composer.apib are typed
+      application/vnd.error+json with a single `message` member. Catalogued in
+      errors/api-blueprint-problem-types.yml.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      The API predates RFC 9457/7807 and uses vnd.error instead. No
+      application/problem+json response appears in the contract or on the wire.
+  - id: content-negotiation
+    name: HTTP content negotiation (RFC 9110)
+    conforms: true
+    evidence: >-
+      apib/introduction.md makes negotiation the primary interface: "Send
+      requests with the Content-Type header set to the right input media type and
+      use the Accept header to select desired output". The contract documents 415
+      on unsupported input types and 406 on unsupported output types, and both
+      behaviours are specified with verbatim error messages in apib/parser.apib.
+  - id: cors
+    name: CORS (Fetch / W3C Cross-Origin Resource Sharing)
+    conforms: true
+    evidence: >-
+      Observed 2026-09-02. GET / returned Access-Control-Allow-Origin: *,
+      Access-Control-Allow-Headers: Content-Type,Accept,
+      Access-Control-Allow-Methods: GET. OPTIONS /parser returned 204 with
+      Access-Control-Allow-Methods: POST.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      No authorization surface exists. Both /.well-known/oauth-authorization-server
+      and /.well-known/openid-configuration returned 404 on both hosts,
+      2026-09-02. The API is entirely unauthenticated — see
+      authentication/api-blueprint-authentication.yml.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: '/.well-known/openid-configuration returned 404 on both hosts, 2026-09-02.'
+  - id: pagination
+    name: Pagination
+    conforms: false
+    evidence: >-
+      Not applicable. The API has no collection resource; all three operations
+      return a single document.
+  - id: idempotency
+    name: Idempotency
+    conforms: true
+    evidence: >-
+      Structural rather than declared. Neither POST operation creates or mutates
+      server-side state — /parser and /composer are pure transformations of the
+      request body — so replaying a request is safe by construction. The provider
+      publishes no Idempotency-Key header and none is needed. Recorded in
+      conventions/api-blueprint-conventions.yml.
+domain_standards:
+  - id: api-blueprint
+    name: API Blueprint (text/vnd.apiblueprint)
+    conforms: true
+    role: author
+    evidence: >-
+      This provider AUTHORS the standard. The contract for its own service is
+      itself an API Blueprint document declaring `FORMAT: 1A` — see
+      apib/api-blueprint-api.apib line 1 — and the service accepts and emits the
+      registered media type text/vnd.apiblueprint. Specification at
+      https://apiblueprint.org/documentation/specification.html.
+  - id: refract-api-elements
+    name: Refract / API Elements — Parse Result Namespace
+    conforms: true
+    role: implementer
+    evidence: >-
+      apib/parser.apib names the output media types
+      application/vnd.refract.parse-result+json and +yaml, versions 0.6 and 1.0,
+      and points at the Refract specification and the Parse Result Namespace. A
+      live POST /parser on 2026-09-02 returned
+      Content-Type: application/vnd.refract.parse-result+json with a body whose
+      root is {"element":"parseResult",...}. The element schema is published by
+      the provider and saved at
+      json-schema/api-blueprint-api-elements-element-schema.json.
+  - id: mson
+    name: MSON — Markdown Syntax for Object Notation
+    conforms: true
+    role: author
+    evidence: >-
+      MSON is the data-structure sub-language of API Blueprint, authored by this
+      provider and specified at
+      https://apiblueprint.org/documentation/mson/specification.html. It entered
+      the format in the Format 1A8 release (2015-03-30) — see
+      changelog/api-blueprint-changelog.yml.
+  - id: swagger-2.0
+    name: Swagger 2.0 / OpenAPI
+    conforms: true
+    role: consumer
+    evidence: >-
+      apib/parser.apib declares application/swagger+yaml and
+      application/swagger+json as accepted input media types, so the parsing
+      service consumes the competing standard as well as its own.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

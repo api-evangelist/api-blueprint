@@ -1,0 +1,82 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  apiaryio/apiary-client repository and its RubyGems metadata, apiaryio/dredd
+  and apiaryio/drafter, read 2026-09-02. All three repositories are archived.
+provider: API Blueprint
+providerId: api-blueprint
+note: >-
+  None of these command-line tools calls the api.apiblueprint.org parsing
+  service. They are local parsers and testers, or they talk to the Apiary
+  platform. There is no first-party CLI for the HTTP API described in
+  openapi/api-blueprint-parsing-service-openapi.yml.
+tools:
+  - name: apiary
+    official: true
+    language: Ruby
+    repository: https://github.com/apiaryio/apiary-client
+    package: https://rubygems.org/gems/apiaryio
+    version: 0.17.0
+    published: '2021-10-21'
+    install:
+      - gem install apiaryio
+    description: >-
+      The Apiary CLI. Works against the Apiary platform (acquired by Oracle),
+      not against the API Blueprint parsing service.
+    commands:
+      - name: apiary preview
+        description: Render a local API Blueprint document for preview.
+      - name: apiary publish
+        description: >-
+          Upload a blueprint to an Apiary-hosted API. Used by the provider's own
+          Makefile to publish this API's documentation.
+      - name: apiary fetch
+        description: Download a blueprint from an Apiary-hosted API.
+  - name: dredd
+    official: true
+    language: JavaScript
+    repository: https://github.com/apiaryio/dredd
+    package: https://www.npmjs.com/package/dredd
+    version: 14.1.0
+    published: '2021-11-16'
+    install:
+      - npm install -g dredd
+    description: >-
+      Language-agnostic HTTP API testing tool. Reads an API Blueprint or OpenAPI
+      document and replays every documented transaction against a running
+      server, validating the responses with Gavel. The provider uses it against
+      its own API — the Makefile in apiaryio/api.apiblueprint.org runs
+      `dredd --hookfiles source/dredd-hooks.js apiary.apib https://api.apiblueprint.org/`.
+    commands:
+      - name: dredd <blueprint> <endpoint>
+        description: Run the documented transactions against a live endpoint.
+      - name: dredd init
+        description: Generate a dredd.yml configuration interactively.
+    flags:
+      - '--hookfiles'
+      - '--reporter'
+      - '--only'
+      - '--dry-run'
+  - name: drafter
+    official: true
+    language: C++
+    repository: https://github.com/apiaryio/drafter
+    package: https://github.com/apiaryio/drafter/releases
+    version: null
+    published: null
+    install:
+      - Build from source; see the repository README.
+    description: >-
+      The reference API Blueprint parser, with a command-line front end that
+      parses a .apib file to an API Elements document locally — the same job the
+      /parser endpoint does over HTTP.
+    commands:
+      - name: drafter <file.apib>
+        description: Parse a blueprint and print the API Elements result.
+    flags:
+      - '--format json|yaml'
+      - '--type refract|ast'
+      - '--validate'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
