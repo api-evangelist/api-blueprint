@@ -41,6 +41,15 @@ tags:
   - Documentation
   - API Description Language
   - Parsing
+  - Open-Source
+  - Developer Tools
+tags_raw:
+  - API Design
+  - Specification Language
+  - Markdown
+  - Documentation
+  - API Description Language
+  - Parsing
   - Open Source
   - Developer Tools
 url: >-
@@ -49,65 +58,163 @@ created: '2026-03-25'
 modified: '2026-09-02'
 specificationVersion: '0.23'
 apis:
-  - aid: api-blueprint:api-blueprint
-    name: API Blueprint
-    description: >-
-      API Blueprint is a high-level API description language using Markdown-based
-      syntax for designing, documenting, and prototyping APIs. Files use the
-      .apib extension with media type text/vnd.apiblueprint. The project was
-      archived in 2024 after being developed by Apiary (acquired by Oracle).
-    humanURL: https://apiblueprint.org
-    tags:
-      - API Design
-      - Specification Language
-      - Markdown
-    properties:
-      - type: Documentation
-        url: https://apiblueprint.org/documentation/
-      - type: GitHubRepository
-        url: https://github.com/apiaryio/api-blueprint
-      - type: Specification
-        url: https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md
-      - type: GettingStarted
-        url: https://apiblueprint.org/documentation/tutorial.html
-  - aid: api-blueprint:api-blueprint-api
-    name: API Blueprint API
-    description: >-
-      The API Blueprint API is the parsing service operated at
-      api.apiblueprint.org by the API Blueprint project. It parses API Blueprint
-      and Swagger 2.0 documents into the Refract Parse Result Namespace (API
-      Elements) and composes API Blueprint back out of API Elements. The service
-      is open, requires no authentication or API key, and is driven entirely by
-      HTTP content negotiation. Probed live and answering on 2026-09-02 even
-      though every apiaryio GitHub repository was archived on 2024-11-08.
-    humanURL: https://apiblueprintapi.docs.apiary.io/
-    baseURL: https://api.apiblueprint.org
-    tags:
-      - API Design
-      - Parsing
-      - Specification Language
-    properties:
-      - type: OpenAPI
-        url: openapi/api-blueprint-parsing-service-openapi.yml
-      - type: APIBlueprint
-        url: apib/api-blueprint-api.apib
-      - type: Documentation
-        url: https://apiblueprintapi.docs.apiary.io/
-      - type: SourceCode
-        url: https://github.com/apiaryio/api.apiblueprint.org
-      - type: Authentication
-        url: authentication/api-blueprint-authentication.yml
-      - type: ErrorCatalog
-        url: errors/api-blueprint-problem-types.yml
-      - type: Conventions
-        url: conventions/api-blueprint-conventions.yml
-      - type: Overlay
-        url: overlays/api-blueprint-parsing-service-overlay.yaml
-      - type: DataModel
-        url: data-model/api-blueprint-data-model.yml
-      - type: JSONSchema
-        url: json-schema/api-blueprint-api-elements-element-schema.json
+- aid: api-blueprint:api-blueprint
+  name: API Blueprint
+  description: >-
+    API Blueprint is a high-level API description language using Markdown-based syntax for designing,
+    documenting, and prototyping APIs. Files use the .apib extension with media type text/vnd.apiblueprint.
+    The project was archived in 2024 after being developed by Apiary (acquired by Oracle).
+  humanURL: https://apiblueprint.org
+  tags:
+  - API Design
+  - Specification Language
+  - Markdown
+  properties:
+  - type: Documentation
+    url: https://apiblueprint.org/documentation/
+  - type: GitHubRepository
+    url: https://github.com/apiaryio/api-blueprint
+  - type: Specification
+    url: https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md
+  - type: GettingStarted
+    url: https://apiblueprint.org/documentation/tutorial.html
+- aid: api-blueprint:api-blueprint-composer-api
+  name: API Blueprint Composer API
+  description: Compose an API description format from API Elements.
+  humanURL: https://apiblueprint.org
+  baseURL: https://api.apiblueprint.org
+  tags:
+  - Composer
+  properties:
+  - type: OpenAPI
+    url: openapi/api-blueprint-composer-api-openapi.yml
+  - type: APIBlueprint
+    url: apib/api-blueprint-api.apib
+  - type: Documentation
+    url: https://apiblueprintapi.docs.apiary.io/
+  - type: SourceCode
+    url: https://github.com/apiaryio/api.apiblueprint.org
+  - type: Authentication
+    url: authentication/api-blueprint-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-blueprint-problem-types.yml
+  - type: Conventions
+    url: conventions/api-blueprint-conventions.yml
+  - type: DataModel
+    url: data-model/api-blueprint-data-model.yml
+  - type: JSONSchema
+    url: json-schema/api-blueprint-api-elements-element-schema.json
+- aid: api-blueprint:api-blueprint-parser-api
+  name: API Blueprint Parser API
+  description: Parse an API description format into API Elements.
+  humanURL: https://apiblueprint.org
+  baseURL: https://api.apiblueprint.org
+  tags:
+  - Parser
+  properties:
+  - type: OpenAPI
+    url: openapi/api-blueprint-parser-api-openapi.yml
+  - type: APIBlueprint
+    url: apib/api-blueprint-api.apib
+  - type: Documentation
+    url: https://apiblueprintapi.docs.apiary.io/
+  - type: SourceCode
+    url: https://github.com/apiaryio/api.apiblueprint.org
+  - type: Authentication
+    url: authentication/api-blueprint-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-blueprint-problem-types.yml
+  - type: Conventions
+    url: conventions/api-blueprint-conventions.yml
+  - type: DataModel
+    url: data-model/api-blueprint-data-model.yml
+  - type: JSONSchema
+    url: json-schema/api-blueprint-api-elements-element-schema.json
+- aid: api-blueprint:api-blueprint-service-root-api
+  name: API Blueprint Service Root API
+  description: Entry point listing the available affordances.
+  humanURL: https://apiblueprint.org
+  baseURL: https://api.apiblueprint.org
+  tags:
+  - Service Root
+  properties:
+  - type: OpenAPI
+    url: openapi/api-blueprint-service-root-api-openapi.yml
+  - type: APIBlueprint
+    url: apib/api-blueprint-api.apib
+  - type: Documentation
+    url: https://apiblueprintapi.docs.apiary.io/
+  - type: SourceCode
+    url: https://github.com/apiaryio/api.apiblueprint.org
+  - type: Authentication
+    url: authentication/api-blueprint-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-blueprint-problem-types.yml
+  - type: Conventions
+    url: conventions/api-blueprint-conventions.yml
+  - type: DataModel
+    url: data-model/api-blueprint-data-model.yml
+  - type: JSONSchema
+    url: json-schema/api-blueprint-api-elements-element-schema.json
+- aid: api-blueprint:api-blueprint-transform-api
+  name: API Blueprint Transform API
+  description: >-
+    Convert an API description between formats through a JSON envelope. Advertised by the live service
+    root; absent from the provider's published contract.
+  humanURL: https://apiblueprint.org
+  baseURL: https://api.apiblueprint.org
+  tags:
+  - Transform
+  properties:
+  - type: OpenAPI
+    url: openapi/api-blueprint-transform-api-openapi.yml
+  - type: APIBlueprint
+    url: apib/api-blueprint-api.apib
+  - type: Documentation
+    url: https://apiblueprintapi.docs.apiary.io/
+  - type: SourceCode
+    url: https://github.com/apiaryio/api.apiblueprint.org
+  - type: Authentication
+    url: authentication/api-blueprint-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-blueprint-problem-types.yml
+  - type: Conventions
+    url: conventions/api-blueprint-conventions.yml
+  - type: DataModel
+    url: data-model/api-blueprint-data-model.yml
+  - type: JSONSchema
+    url: json-schema/api-blueprint-api-elements-element-schema.json
+- aid: api-blueprint:api-blueprint-validate-api
+  name: API Blueprint Validate API
+  description: >-
+    Validate an API description and return its annotations. Advertised by the live service root; absent
+    from the provider's published contract.
+  humanURL: https://apiblueprint.org
+  baseURL: https://api.apiblueprint.org
+  tags:
+  - Validate
+  properties:
+  - type: OpenAPI
+    url: openapi/api-blueprint-validate-api-openapi.yml
+  - type: APIBlueprint
+    url: apib/api-blueprint-api.apib
+  - type: Documentation
+    url: https://apiblueprintapi.docs.apiary.io/
+  - type: SourceCode
+    url: https://github.com/apiaryio/api.apiblueprint.org
+  - type: Authentication
+    url: authentication/api-blueprint-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-blueprint-problem-types.yml
+  - type: Conventions
+    url: conventions/api-blueprint-conventions.yml
+  - type: DataModel
+    url: data-model/api-blueprint-data-model.yml
+  - type: JSONSchema
+    url: json-schema/api-blueprint-api-elements-element-schema.json
 common:
+  - type: Overlay
+    url: overlays/api-blueprint-parsing-service-overlay.yaml
   - type: IssueTracker
     url: https://github.com/apiaryio/api-blueprint/issues
   - type: Releases
