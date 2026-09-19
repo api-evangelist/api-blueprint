@@ -164,6 +164,8 @@ apis:
   humanURL: https://apiblueprint.org
   baseURL: https://api.apiblueprint.org
   tags:
+  - Transforms
+  tags_raw:
   - Transform
   properties:
   - type: OpenAPI
