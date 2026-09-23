@@ -1,0 +1,123 @@
+openapi: 3.2.0
+info:
+  title: Blueprint Transform API
+  version: 1A
+  summary: API Blueprint parsing service
+  description: The API Blueprint parsing service provides parsing of API Blueprint "as a service".
+  license:
+    name: MIT
+    identifier: MIT
+  contact:
+    name: API Blueprint
+    url: https://apiblueprint.org
+servers:
+- url: https://api.apiblueprint.org
+  description: Production parsing service (declared as HOST in the provider's apiary.apib)
+tags:
+- name: Transform
+  description: Convert an API description between formats through a JSON envelope. Advertised by the live service root; absent from the provider's published contract.
+paths:
+  /transform:
+    post:
+      tags:
+      - Transform
+      operationId: transformApiDescription
+      summary: Transform
+      description: 'Transform an API description from one format into another. Takes the input document and both media types in a JSON envelope rather than in HTTP headers, and returns the result in a JSON envelope (`output_type` + `output_document`) as application/hal+json.
+
+
+        UNDOCUMENTED SURFACE, ESTABLISHED BY PROBE — same caveat as /validate. Note the live service accepts `application/vnd.oai.openapi` as an input media type, which the provider''s published contract does not mention.'
+      x-probed:
+        checked: '2026-09-02'
+        evidence:
+        - POST /transform {input_document, input_type} with no output_type -> 406 listing the supported output types
+        - POST /transform {input_document, input_type:"text/vnd.apiblueprint", output_type:"application/vnd.refract.parse-result+json"} -> 200 application/hal+json {"output_type":..., "output_document":"..."}
+        - 'GET /transform -> 405; OPTIONS /transform -> 204 Access-Control-Allow-Methods: POST'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformRequest'
+      responses:
+        '200':
+          description: The transformed document, wrapped in a JSON envelope.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/TransformResponse'
+        '400':
+          description: Body is not valid JSON, or `input_document` is missing.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method not allowed. Only POST is accepted.
+        '406':
+          description: '`output_type` is missing or names an unsupported output media type.'
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '415':
+          description: '`input_type` is missing or names an unsupported input media type.'
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TransformRequest:
+      type: object
+      description: JSON envelope used by /validate and /transform. Field names were established by probe, from the service's own 400/415/406 error messages.
+      properties:
+        input_document:
+          type: string
+          description: The API description document to process.
+        input_type:
+          type: string
+          description: Media type of input_document.
+          enum:
+          - text/vnd.apiblueprint
+          - text/vnd.legacyblueprint
+          - application/swagger
+          - application/vnd.oai.openapi
+        output_type:
+          type: string
+          description: Desired output media type. Required by /transform, ignored by /validate.
+          enum:
+          - application/vnd.refract.parse-result
+          - application/vnd.refract.parse-result+json
+          - application/vnd.refract.parse-result+yaml
+          - application/vnd.refract.parse-result; version=0.6
+          - application/vnd.refract.parse-result; version=1.0
+          - application/vnd.refract.parse-result+json; version=0.6
+          - application/vnd.refract.parse-result+json; version=1.0
+          - application/vnd.refract.parse-result+yaml; version=0.6
+          - application/vnd.refract.parse-result+yaml; version=1.0
+      required:
+      - input_document
+      - input_type
+    TransformResponse:
+      type: object
+      description: JSON envelope returned by /transform.
+      properties:
+        output_type:
+          type: string
+        output_document:
+          type: string
+      required:
+      - output_type
+      - output_document
+    Error:
+      type: object
+      description: The vnd.error media type as used by this API. Carries a single human readable message.
+      properties:
+        message:
+          type: string
+      required:
+      - message
+externalDocs:
+  description: API Blueprint API documentation on Apiary
+  url: https://apiblueprintapi.docs.apiary.io/

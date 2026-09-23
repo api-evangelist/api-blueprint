@@ -1,0 +1,71 @@
+openapi: 3.2.0
+info:
+  title: Blueprint Service Root API
+  version: 1A
+  summary: API Blueprint parsing service
+  description: The API Blueprint parsing service provides parsing of API Blueprint "as a service".
+  license:
+    name: MIT
+    identifier: MIT
+  contact:
+    name: API Blueprint
+    url: https://apiblueprint.org
+servers:
+- url: https://api.apiblueprint.org
+  description: Production parsing service (declared as HOST in the provider's apiary.apib)
+tags:
+- name: Service Root
+  description: Entry point listing the available affordances.
+paths:
+  /:
+    get:
+      tags:
+      - Service Root
+      operationId: listAffordances
+      summary: List
+      description: API entry point. This resource does not have any attributes, instead it provides a list of available affordances (`parse`, `compose`).
+      responses:
+        '200':
+          description: HAL representation of the service root.
+          headers:
+            Link:
+              description: Profile link relation pointing at the API documentation.
+              schema:
+                type: string
+              example: <https://plutonium.docs.apiary.io>; rel="profile"
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ServiceRoot'
+              example:
+                _links:
+                  self:
+                    href: /
+                  validate:
+                    href: /validate
+                  transform:
+                    href: /transform
+                  parse:
+                    href: /parser
+                  compose:
+                    href: /composer
+components:
+  schemas:
+    ServiceRoot:
+      type: object
+      description: HAL representation of the service root.
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              href:
+                type: string
+            required:
+            - href
+      required:
+      - _links
+externalDocs:
+  description: API Blueprint API documentation on Apiary
+  url: https://apiblueprintapi.docs.apiary.io/

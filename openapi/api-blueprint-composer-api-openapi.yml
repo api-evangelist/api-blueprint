@@ -1,0 +1,96 @@
+openapi: 3.2.0
+info:
+  title: Blueprint Composer API
+  version: 1A
+  summary: API Blueprint parsing service
+  description: The API Blueprint parsing service provides parsing of API Blueprint "as a service".
+  license:
+    name: MIT
+    identifier: MIT
+  contact:
+    name: API Blueprint
+    url: https://apiblueprint.org
+servers:
+- url: https://api.apiblueprint.org
+  description: Production parsing service (declared as HOST in the provider's apiary.apib)
+tags:
+- name: Composer
+  description: Compose an API description format from API Elements.
+paths:
+  /composer:
+    post:
+      tags:
+      - Composer
+      operationId: composeApiDescription
+      summary: Compose
+      description: Reverse the parsing process — compose an API description format from API Elements. Accepts an API Elements API Category or an API Elements Parse Result and returns an API Blueprint document.
+      parameters:
+      - name: Accept
+        in: header
+        required: false
+        description: Desired output media type.
+        schema:
+          type: string
+          enum:
+          - text/vnd.apiblueprint
+        example: text/vnd.apiblueprint
+      requestBody:
+        required: true
+        description: API Elements document to compose from.
+        content:
+          application/vnd.refract+json:
+            schema:
+              $ref: '#/components/schemas/ApiElement'
+          application/vnd.refract.parse-result+json:
+            schema:
+              $ref: '#/components/schemas/ParseResult'
+      responses:
+        '200':
+          description: The composed API Blueprint document.
+          content:
+            text/vnd.apiblueprint:
+              schema:
+                type: string
+        '415':
+          description: Unsupported Content-Type, or an unsupported Refract serialisation version.
+          content:
+            application/vnd.error+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unsupportedRefractVersion:
+                  value:
+                    message: 'Unsupported Refract Serialisation version `2.0`. Supported: 0.6, 1.0.'
+                unsupportedContentType:
+                  value:
+                    message: 'Unsupported Content-Type `application/vnd.apiblueprint.ast+json`. Supported: application/vnd.refract+json, application/vnd.refract.parse-result+json. API Blueprint AST is no longer supported.'
+components:
+  schemas:
+    ParseResult:
+      allOf:
+      - $ref: '#/components/schemas/ApiElement'
+      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
+    Error:
+      type: object
+      description: The vnd.error media type as used by this API. Carries a single human readable message.
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    ApiElement:
+      type: object
+      description: A Refract / API Elements element. Structure is defined by the API Elements element schema, saved in this repository at json-schema/api-blueprint-api-elements-element-schema.json.
+      properties:
+        element:
+          type: string
+        meta:
+          type: object
+        attributes:
+          type: object
+        content: {}
+      required:
+      - element
+externalDocs:
+  description: API Blueprint API documentation on Apiary
+  url: https://apiblueprintapi.docs.apiary.io/
