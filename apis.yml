@@ -41,7 +41,7 @@ tags:
   - Documentation
   - API Description Language
   - Parsing
-  - Open-Source
+  - Open Source
   - Developer Tools
 tags_raw:
   - API Design
@@ -52,6 +52,7 @@ tags_raw:
   - Parsing
   - Open Source
   - Developer Tools
+  - Open-Source
 url: >-
   https://raw.githubusercontent.com/api-evangelist/api-blueprint/refs/heads/main/apis.yml
 created: '2026-03-25'

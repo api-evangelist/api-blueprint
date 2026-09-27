@@ -66,6 +66,31 @@ paths:
                 message: 'Content-Type "undefined" is not supported. Supported MIME types: text/vnd.apiblueprint, text/vnd.legacyblueprint, application/swagger, application/vnd.oai.openapi'
 components:
   schemas:
+    ParseResult:
+      allOf:
+      - $ref: '#/components/schemas/ApiElement'
+      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
+    ApiElement:
+      type: object
+      description: A Refract / API Elements element. Structure is defined by the API Elements element schema, saved in this repository at json-schema/api-blueprint-api-elements-element-schema.json.
+      properties:
+        element:
+          type: string
+        meta:
+          type: object
+        attributes:
+          type: object
+        content: {}
+      required:
+      - element
+    Error:
+      type: object
+      description: The vnd.error media type as used by this API. Carries a single human readable message.
+      properties:
+        message:
+          type: string
+      required:
+      - message
     TransformRequest:
       type: object
       description: JSON envelope used by /validate and /transform. Field names were established by probe, from the service's own 400/415/406 error messages.
@@ -97,31 +122,6 @@ components:
       required:
       - input_document
       - input_type
-    ParseResult:
-      allOf:
-      - $ref: '#/components/schemas/ApiElement'
-      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
-    Error:
-      type: object
-      description: The vnd.error media type as used by this API. Carries a single human readable message.
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    ApiElement:
-      type: object
-      description: A Refract / API Elements element. Structure is defined by the API Elements element schema, saved in this repository at json-schema/api-blueprint-api-elements-element-schema.json.
-      properties:
-        element:
-          type: string
-        meta:
-          type: object
-        attributes:
-          type: object
-        content: {}
-      required:
-      - element
 externalDocs:
   description: API Blueprint API documentation on Apiary
   url: https://apiblueprintapi.docs.apiary.io/
