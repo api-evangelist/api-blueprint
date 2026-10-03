@@ -94,10 +94,6 @@ paths:
                 type: string
 components:
   schemas:
-    ParseResult:
-      allOf:
-      - $ref: '#/components/schemas/ApiElement'
-      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
     ApiElement:
       type: object
       description: A Refract / API Elements element. Structure is defined by the API Elements element schema, saved in this repository at json-schema/api-blueprint-api-elements-element-schema.json.
@@ -119,6 +115,10 @@ components:
           type: string
       required:
       - message
+    ParseResult:
+      allOf:
+      - $ref: '#/components/schemas/ApiElement'
+      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
 externalDocs:
   description: API Blueprint API documentation on Apiary
   url: https://apiblueprintapi.docs.apiary.io/

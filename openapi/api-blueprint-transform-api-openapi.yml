@@ -68,6 +68,14 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: The vnd.error media type as used by this API. Carries a single human readable message.
+      properties:
+        message:
+          type: string
+      required:
+      - message
     TransformResponse:
       type: object
       description: JSON envelope returned by /transform.
@@ -79,14 +87,6 @@ components:
       required:
       - output_type
       - output_document
-    Error:
-      type: object
-      description: The vnd.error media type as used by this API. Carries a single human readable message.
-      properties:
-        message:
-          type: string
-      required:
-      - message
     TransformRequest:
       type: object
       description: JSON envelope used by /validate and /transform. Field names were established by probe, from the service's own 400/415/406 error messages.
