@@ -79,6 +79,10 @@ components:
         content: {}
       required:
       - element
+    ParseResult:
+      allOf:
+      - $ref: '#/components/schemas/ApiElement'
+      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
     Error:
       type: object
       description: The vnd.error media type as used by this API. Carries a single human readable message.
@@ -118,10 +122,6 @@ components:
       required:
       - input_document
       - input_type
-    ParseResult:
-      allOf:
-      - $ref: '#/components/schemas/ApiElement'
-      description: 'A Refract Parse Result element (`element: parseResult`) whose content carries the parsed API category plus any annotations.'
 externalDocs:
   description: API Blueprint API documentation on Apiary
   url: https://apiblueprintapi.docs.apiary.io/
